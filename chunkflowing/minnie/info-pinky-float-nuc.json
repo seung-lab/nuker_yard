@@ -1,0 +1,137 @@
+{
+  "data_type": "float32",
+  "num_channels": 1,
+  "scales": [
+    {
+      "chunk_sizes": [
+        [
+          128,
+          128,
+          64
+        ]
+      ],
+      "encoding": "raw",
+      "key": "absent0",
+      "resolution": [
+        4,
+        4,
+        40
+      ],
+      "size": [
+        90112,
+        57344,
+        2176
+      ],
+      "voxel_offset": [
+        34992,
+        30544,
+        1
+      ]
+    },
+    {
+      "chunk_sizes": [
+        [
+          128,
+          128,
+          64
+        ]
+      ],
+      "encoding": "raw",
+      "key": "absent1",
+      "resolution": [
+        8,
+        8,
+        40
+      ],
+      "size": [
+        1,
+        1,
+        2176
+      ],
+      "voxel_offset": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "chunk_sizes": [
+        [
+          128,
+          128,
+          64
+        ]
+      ],
+      "encoding": "raw",
+      "key": "absent2",
+      "resolution": [
+        16,
+        16,
+        40
+      ],
+      "size": [
+        1,
+        1,
+        2176
+      ],
+      "voxel_offset": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "chunk_sizes": [
+        [
+          128,
+          128,
+          64
+        ]
+      ],
+      "encoding": "raw",
+      "key": "absent3",
+      "resolution": [
+        32,
+        32,
+        40
+      ],
+      "size": [
+        1,
+        1,
+        2176
+      ],
+      "voxel_offset": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "chunk_sizes": [
+        [
+          256,
+          256,
+          32
+        ]
+      ],
+      "encoding": "raw",
+      "key": "64_64_40",
+      "resolution": [
+        64,
+        64,
+        40
+      ],
+      "size": [
+        5632,
+        3584,
+        2176
+      ],
+      "voxel_offset": [
+        2187,
+        1909,
+        1
+      ]
+    }
+  ],
+  "type": "image"
+}

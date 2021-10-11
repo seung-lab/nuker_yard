@@ -1,0 +1,22 @@
+#!/bin/bash
+
+
+#aws ec2 create-subnet --vpc-id vpc-07ddee12991dcdd2b --cidr-block 10.7.0.0/20 --availability-zone us-east-1a
+
+#SN=`aws ec2 create-subnet --vpc-id vpc-07ddee12991dcdd2b --cidr-block 10.7.0.0/20 --availability-zone us-east-1a | grep -e 'subnet-[0-9a-f]*' -o -m 1` ;  aws ec2 create-tags --resources $SN --tags Key=Name,Value=shang-1a
+SN=`aws ec2 create-subnet --vpc-id vpc-07ddee12991dcdd2b --cidr-block 10.7.16.0/20 --availability-zone us-east-1b | grep -e 'subnet-[0-9a-f]*' -o -m 1` ;  aws ec2 create-tags --resources $SN --tags Key=Name,Value=shang-1b
+SN=`aws ec2 create-subnet --vpc-id vpc-07ddee12991dcdd2b --cidr-block 10.7.32.0/20 --availability-zone us-east-1c | grep -e 'subnet-[0-9a-f]*' -o -m 1` ;  aws ec2 create-tags --resources $SN --tags Key=Name,Value=shang-1c
+SN=`aws ec2 create-subnet --vpc-id vpc-07ddee12991dcdd2b --cidr-block 10.7.48.0/20 --availability-zone us-east-1d | grep -e 'subnet-[0-9a-f]*' -o -m 1` ;  aws ec2 create-tags --resources $SN --tags Key=Name,Value=shang-1d
+SN=`aws ec2 create-subnet --vpc-id vpc-07ddee12991dcdd2b --cidr-block 10.7.64.0/20 --availability-zone us-east-1e | grep -e 'subnet-[0-9a-f]*' -o -m 1` ;  aws ec2 create-tags --resources $SN --tags Key=Name,Value=shang-1e
+SN=`aws ec2 create-subnet --vpc-id vpc-07ddee12991dcdd2b --cidr-block 10.7.80.0/20 --availability-zone us-east-1f | grep -e 'subnet-[0-9a-f]*' -o -m 1` ;  aws ec2 create-tags --resources $SN --tags Key=Name,Value=shang-1f
+
+
+# subnet-0bb0184ea717a920c | shang-1a
+# subnet-0274494b3d58357c5 | shang-1b
+# subnet-0d5f246c0901448f2 | shang-1c
+# subnet-0fd75bb736cb9015c | shang-1d
+# subnet-00e05e1936ab2f0dd | shang-1e
+# subnet-05c4920f8a3f03a25 | shang-1f
+
+
+#eksctl utils update-legacy-subnet-settings --cluster shang-Eks-Gpu-Cluster

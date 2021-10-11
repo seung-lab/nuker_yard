@@ -1,0 +1,65 @@
+# apiVersion: batch/v1
+# kind: Job
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: igneousjob
+spec:
+  replicas: 1
+  #parallelism: 60
+  template:
+    metadata:
+      labels:
+        app: igneous
+    spec:
+      containers:
+        - name: igneous
+          image: seunglab/igneous:master
+          # OLD image: gcr.io/neuromancer-seung-import/igneous:master
+          volumeMounts:
+          - name: secrets
+            mountPath: /root/.cloudvolume/secrets/google-secret.json
+            readOnly: true
+            subPath: google-secret.json
+            #subPath: neuroglancer-google-secret.json - would error out if this isn't in there
+            #subPath: dummy-google-secret.json
+          - name: secrets
+            mountPath: /root/.cloudvolume/secrets/aws-secret.json
+            readOnly: true
+            subPath: aws-secret.json
+            #subPath: microns-seunglab-google-secret.json
+          # - name: secrets
+          #   mountPath: "/root/.cloudvolume/secrets"
+          #   readOnly: true
+            # mountPath: "/secrets"
+          - name: tmp
+            mountPath: "/tmp"
+            readOnly: false
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: 3.5Gi
+              cpu: 0.95
+          env:
+            - name: PIPELINE_USER_QUEUE
+              value: shang-generic
+            - name: QUEUE_TYPE
+              value: aws
+              #value: sqs
+            # - name: GOOGLE_PROJECT_NAME  - no longer needed per Will
+            #   value: neuromancer-seung-import
+            - name: SQS_URL
+              value: https://sqs.us-east-1.amazonaws.com/098703261575/shang-generic
+            - name: LEASE_SECONDS
+              #value: "43200"
+              #43200=12h
+              value: "400"
+              # for the easy nuc meshes
+      #restartPolicy: Never
+      restartPolicy: Always
+      volumes:
+      - name: secrets
+        secret:
+          secretName: secrets
+      - name: tmp
+        emptyDir: { medium: "Memory" }

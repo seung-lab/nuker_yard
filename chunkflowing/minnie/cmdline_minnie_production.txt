@@ -1,0 +1,30 @@
+kubectl create secret generic secrets  --from-file=$HOME/.cloudvolume/secrets/aws-secret.json  --from-file=$HOME/.cloudvolume/secrets/google-secret.json  --from-file=minnie/consume_tasks_minnie_production.sh --from-file=RSUNet3.py --from-file=net_RSU3.py    --dry-run -o yaml |    kubectl apply -f - 
+
+--from-file=minnie/dummy-google-secret.json
+
+
+
+
+kubectl create secret generic boto --from-file=$HOME/.cloudvolume/secrets/minimal_boto_aws     --dry-run -o yaml |    kubectl apply -f -
+
+
+cd ~/devr/nucleus/Synaptor/mr/kube
+python task_generation/chunk_ccs.py  ./synaptor-minnie-p3.cfg
+python task_generation/merge_ccs.py   ./synaptor-minnie-p3.cfg
+python task_generation/remap.py    ./synaptor-minnie-p3.cfg
+
+
+
+
+
+#p2 image
+kubectl create secret generic secrets  --from-file=$HOME/.cloudvolume/secrets/aws-secret.json  --from-file=$HOME/.cloudvolume/secrets/google-secret.json  --from-file=$HOME/.cloudvolume/secrets/matrix-secret.json --from-file=minnie/consume_tasks_minnie_production_p2image.sh --from-file=RSUNet3.py --from-file=net_RSU3.py    --dry-run -o yaml |    kubectl apply -f - 
+#/usr/people/smu/devr/nucleus/cell_body_minimal/chunkflowing/minnie/consume_tasks_minnie_production_p2image.sh
+
+
+cd ~/devr/nucleus/Synaptor/mr/kube
+python task_generation/chunk_ccs.py  ./synaptor-minnie-p2image.cfg
+python task_generation/merge_ccs.py   ./synaptor-minnie-p2image.cfg
+python task_generation/remap.py    ./synaptor-minnie-p2image.cfg
+
+

@@ -1,0 +1,137 @@
+{
+  "data_type": "float32",
+  "num_channels": 1,
+  "scales": [
+    {
+      "chunk_sizes": [
+        [
+          128,
+          128,
+          64
+        ]
+      ],
+      "encoding": "raw",
+      "key": "absent0",
+      "resolution": [
+        4,
+        4,
+        40
+      ],
+      "size": [
+        393216,
+        262144,
+        13056
+      ],
+      "voxel_offset": [
+        48000,
+        60608,
+        14825
+      ]
+    },
+    {
+      "chunk_sizes": [
+        [
+          128,
+          128,
+          64
+        ]
+      ],
+      "encoding": "raw",
+      "key": "absent1",
+      "resolution": [
+        8,
+        8,
+        40
+      ],
+      "size": [
+        196608,
+        131072,
+        13056
+      ],
+      "voxel_offset": [
+        24000,
+        30304,
+        14825
+      ]
+    },
+    {
+      "chunk_sizes": [
+        [
+          128,
+          128,
+          64
+        ]
+      ],
+      "encoding": "raw",
+      "key": "absent2",
+      "resolution": [
+        16,
+        16,
+        40
+      ],
+      "size": [
+        98304,
+        65536,
+        13056
+      ],
+      "voxel_offset": [
+        12000,
+        15152,
+        14825
+      ]
+    },
+    {
+      "chunk_sizes": [
+        [
+          128,
+          128,
+          64
+        ]
+      ],
+      "encoding": "raw",
+      "key": "absent3",
+      "resolution": [
+        32,
+        32,
+        40
+      ],
+      "size": [
+        49152,
+        32768,
+        13056
+      ],
+      "voxel_offset": [
+        6000,
+        7576,
+        14825
+      ]
+    },
+    {
+      "chunk_sizes": [
+        [
+          256,
+          256,
+          32
+        ]
+      ],
+      "encoding": "raw",
+      "key": "64_64_40",
+      "resolution": [
+        64,
+        64,
+        40
+      ],
+      "size": [
+        24576,
+        16384,
+        13056
+      ],
+      "voxel_offset": [
+        3000,
+        3788,
+        14825
+      ]
+    }
+  ],
+  "type": "image"
+}
