@@ -1,0 +1,38 @@
+
+
+SQS (taskqueue)
+ - service account credential
+Google cloud / Kubernetes
+ - service account credential (cloudvolume)
+ -
+
+
+Inference (Chunkflow old version):
+- chunking: 
+	Compute chunking parameters, especially chunk size (google sheet). 
+	Considerations: GPU memory, CPU RAM, patch size, patch overlap ...
+	For inference-only job there is a setup-env operator that finds appropriate values maximizing empirical RAM utilization by bruteforce search.
+	`setup-env` example:
+	chunkflow --verbose 1 setup-env -l "gs://..." --volume-start 16276 172589 213613 --volume-stop 18324 213509 254533 --max-ram-size 22 --output-patch-size 20 256 256 --output-patch-overlap 4 64 64 --crop-chunk-margin 4 64 64 --channel-num 3 -m 1 --thumbnail --encoding raw --voxel-size 40 4 4 --thumbnail-mip 5 --max-mip 5 -q queue-name
+
+- task generation script/command (unless using setup-env)
+- task consumption script
+- If runing in google cloud: have/create a kubernetes cluster, prepare deployment yaml file. 
+	(Example: chunkflow/distributed/kubernetes/deploy.yml)
+- prepare cloudvolume (info file)
+- net interface file (multiple ways in current version of chunkflow)
+	`identity` example: chunkflow/chunk/image/convnet/patch/general_identity.py
+
+
+
+Connected components (via Synaptor image)
+- config file for generating tasks (synaptor.cfg)
+- Tasks when using disk backend: chunk_ccs -> merge_ccs -> remap
+- cluster
+- kube deployment file
+- secrets, boto file
+
+Meshing (via igneous image)
+- kube deployment
+- sqs queue
+

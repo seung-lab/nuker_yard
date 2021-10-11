@@ -1,0 +1,78 @@
+
+
+
+My enviroment/tool setup:
+SQS and cluster with Kubernetes access and proper service account credentials for cloudvolume.
+
+
+3-step process:
+CNN inference -> Connected Components -> Meshing
+
+
+==============
+INFERENCE
+
+Most, if not all, necessary files are located in the chunkflowing/ folder.
+
+Basically a 2-step process:
+produce_tasks_*.sh to generate the tasks (chunks).
+consume_tasks_*.sh to have chunkflow run through the tasks.
+
+
+Background / 3D net:
+RSUNet3.py - trained with patch size (32, 160, 160) (zyx).
+I have been running inference with [--patch-size 64 256 256 --patch-overlap 16 64 64 ]. 
+(I specifically introduced robustness enhancing procedures in the training so my trained net isn't sensitive to altered patch size.)
+The net is plugged into chunkflow via chunkflowing/net_RSU3.py, so both net_RSU3.py and RSUNet3.py need to be accessible when deploying in the cloud. (See chunkflowing/minnie/kubedeploy_pinky.yml and chunkflowing/minnie/cmdline_pinky.txt for how that was done by me. The `flynuker` docker image was basically a modified chunkflow image, and can be replaced with just a normal chunkflow image for the purpose of 3D net inferece.)
+
+
+
+Special note:
+I had been using an old version of Chunkflow, and some of these may have changed. Especially, it seems task generation can no longer be done via a script but now though the `chunk-flow` command.
+Pinky is the last dataset I ran these on. So in most cases the config file/script for pinky is the best one / most updated one for using as a reference.
+
+
+
+For initial inference testing on sampled locations (my way): 
+- Could just run chunkflow image or chunkflow locally, by running consume_tasks*.sh to run through the inference tasks.
+- Still use a SQS queue. 
+- Just generate tasks and put tasks(chunks) into the queue 
+	(I was using chunkflowing/get_cf_blocks.py to convert known locations (or generate random samples) into a format that I can just more easily copy/paste into a task-posting script, such as chunkflowing/produce_tasks_minnie_3d.sh as an example )
+
+
+
+
+Full Inference:
+- chunking parameters: 
+	Compute chunking parameters, such as chunk size (I was doing that within Jingpeng's google sheet). 
+	Considerations: GPU memory, CPU RAM, patch size, patch overlap ...
+	I didn't use the following but in recent ChunkFlow versions, for inference-only jobs there is also a setup-env operator that finds appropriate values maximizing empirical RAM utilization by bruteforce search.
+	`setup-env` example:
+	chunkflow --verbose 1 setup-env -l "gs://..." --volume-start 16276 172589 213613 --volume-stop 18324 213509 254533 --max-ram-size 22 --output-patch-size 20 256 256 --output-patch-overlap 4 64 64 --crop-chunk-margin 4 64 64 --channel-num 3 -m 1 --thumbnail --encoding raw --voxel-size 40 4 4 --thumbnail-mip 5 --max-mip 5 -q queue-name
+- task generation script/command (unless using setup-env)
+	(Again I was using older chunkflow version and the command seems to have changed.)
+	Example: chunkflowing/minnie/produce_tasks_pinky_production.sh
+- task consumption script
+	Example: chunkflowing/consume_tasks_pinky.sh
+- If runing in google cloud: have/create a kubernetes cluster, prepare deployment yaml file. 
+	Example: chunkflowing/minnie/kubedeploy_pinky.yml
+	("Official" chunkflow example: chunkflow/distributed/kubernetes/deploy.yml)
+- prepare cloudvolume (info file)
+
+
+==============
+
+Connected components (via Synaptor image)
+- config file for generating tasks (synaptor.cfg)
+	example: post_inference/synaptor-minnie-p2image.cfg
+- Tasks when using disk backend: chunk_ccs -> merge_ccs -> remap
+- cluster
+- kube deployment file
+- secrets, boto file
+
+==============
+
+Meshing (via igneous image)
+- kube deployment
+- sqs queue
+
